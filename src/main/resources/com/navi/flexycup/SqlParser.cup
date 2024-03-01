@@ -1,0 +1,33 @@
+package com.navi.flexycup;
+import java_cup.runtime.*;
+
+
+parser code {:
+    public SqlParser(SqlLexer lex) {
+        super(lex);
+    }
+:}
+
+terminal P_COMA, SUMA, RESTA;
+terminal Integer ENTERO;
+
+non terminal ops, op, sim;
+
+//Presedencia
+
+/*precedence left SUMA;
+precedence left RESTA;*/
+
+start with ops;
+
+ops ::= op P_COMA ops {: System.out.println("anida una operacion con otra con un punto y coma");:}
+        |op {: System.out.println("ciclo");:}
+        ;
+
+op ::= ENTERO sim ENTERO {: System.out.println("suma o resta 2 enteros");:}
+        ;
+
+sim ::= SUMA {: System.out.println("suma");:}
+        |RESTA {: System.out.println("resta");:}
+        ;
+
