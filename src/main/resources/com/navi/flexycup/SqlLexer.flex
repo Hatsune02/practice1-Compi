@@ -1,6 +1,6 @@
-package com.navi.flexycup;
+package com.navi.backend.flexycup;
 import java_cup.runtime.*;
-import static com.navi.flexycup.sym.*;
+import static com.navi.backend.flexycup.sym.*;
 
 %% //separador de area
 
