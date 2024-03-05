@@ -8,19 +8,53 @@ package com.navi.backend.flexycup;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int RESTA = 4;
-  public static final int error = 1;
-  public static final int SUMA = 3;
-  public static final int P_COMA = 2;
+  public static final int AND = 5;
+  public static final int INSERTAR = 9;
+  public static final int CADENA = 15;
+  public static final int PARENT_2 = 18;
+  public static final int OR = 6;
+  public static final int DIGIT = 21;
+  public static final int PARENT_1 = 17;
+  public static final int EQUAL = 16;
+  public static final int ELIMINAR = 12;
+  public static final int ID = 19;
+  public static final int FILTRAR = 8;
+  public static final int VALORES = 14;
+  public static final int ASIGNAR = 11;
+  public static final int ACTUALIZAR = 10;
+  public static final int COMA = 3;
+  public static final int REL_OP = 20;
   public static final int EOF = 0;
-  public static final int ENTERO = 5;
+  public static final int ASTERISCO = 4;
+  public static final int error = 1;
+  public static final int P_COMA = 2;
+  public static final int EN = 13;
+  public static final int PATH = 22;
+  public static final int SELECCIONAR = 7;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "P_COMA",
-  "SUMA",
-  "RESTA",
-  "ENTERO"
+  "COMA",
+  "ASTERISCO",
+  "AND",
+  "OR",
+  "SELECCIONAR",
+  "FILTRAR",
+  "INSERTAR",
+  "ACTUALIZAR",
+  "ASIGNAR",
+  "ELIMINAR",
+  "EN",
+  "VALORES",
+  "CADENA",
+  "EQUAL",
+  "PARENT_1",
+  "PARENT_2",
+  "ID",
+  "REL_OP",
+  "DIGIT",
+  "PATH"
   };
 }
 

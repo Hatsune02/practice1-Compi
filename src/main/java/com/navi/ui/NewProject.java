@@ -1,14 +1,20 @@
 package com.navi.ui;
 
+import com.navi.backend.csv_controller.CSVController;
+import com.navi.backend.csv_controller.Querys;
+
 import javax.swing.*;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class NewProject extends javax.swing.JFrame {
     Dashboard parent;
-    File file = new File("~/");
+    File file;
     public NewProject(Dashboard parent) {
         this.parent = parent;
+        file = new File(System.getProperty("user.home"));
         initComponents(parent);
     }
 
@@ -158,18 +164,27 @@ public class NewProject extends javax.swing.JFrame {
         }
     }
     private void createProject(String projectName, File location) {
+
         File projectFolder = new File(location, projectName);
         if (!projectFolder.exists()) {
             projectFolder.mkdir();
-            File ideFile = new File(projectFolder, "project.ide");
+            File ideFile = new File(projectFolder, projectName+".ide");
             try {
-                ideFile.createNewFile();
+                if(ideFile.createNewFile()){
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(ideFile))) {
+                        writer.write("<PROYECTO nombre=\"" + projectName + "\">\n");
+                        writer.write("</PROYECTO>\n");
+                    } catch (IOException e) {
+                        System.err.println("Error al crear el archivo .ide: " + e.getMessage());
+                    }
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
             JOptionPane.showMessageDialog(this, "Project created at: " + projectFolder.getAbsolutePath());
             parent.reloadTree(projectFolder);
             parent.projectFolder = projectFolder;
+            Querys.pathProject = projectFolder.getAbsolutePath();
         } else {
             JOptionPane.showMessageDialog(this, "Project already exists!");
         }

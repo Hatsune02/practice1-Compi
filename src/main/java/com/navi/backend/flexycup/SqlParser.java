@@ -6,6 +6,10 @@
 package com.navi.backend.flexycup;
 
 import java_cup.runtime.*;
+import com.navi.backend.csv_controller.*;
+import com.navi.ui.*;
+import javax.swing.*;
+import java.util.*;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -31,9 +35,18 @@ public class SqlParser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\006\000\002\002\004\000\002\002\005\000\002\002" +
-    "\003\000\002\003\005\000\002\004\003\000\002\004\003" +
-    "" });
+    "\000\044\000\002\002\004\000\002\002\003\000\002\002" +
+    "\004\000\002\003\004\000\002\003\004\000\002\003\004" +
+    "\000\002\003\004\000\002\004\007\000\002\004\007\000" +
+    "\002\005\011\000\002\005\014\000\002\006\010\000\002" +
+    "\020\005\000\002\020\007\000\002\007\006\000\002\017" +
+    "\004\000\002\017\002\000\002\016\006\000\002\016\006" +
+    "\000\002\015\002\000\002\015\007\000\002\015\007\000" +
+    "\002\015\007\000\002\015\007\000\002\013\002\000\002" +
+    "\013\007\000\002\013\007\000\002\014\002\000\002\014" +
+    "\007\000\002\014\007\000\002\011\003\000\002\011\005" +
+    "\000\002\012\003\000\002\012\005\000\002\010\003\000" +
+    "\002\010\003" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -41,12 +54,68 @@ public class SqlParser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\013\000\004\007\005\001\002\000\004\002\015\001" +
-    "\002\000\006\005\013\006\011\001\002\000\006\002\uffff" +
-    "\004\007\001\002\000\004\007\005\001\002\000\004\002" +
-    "\000\001\002\000\004\007\ufffc\001\002\000\004\007\014" +
-    "\001\002\000\004\007\ufffd\001\002\000\006\002\ufffe\004" +
-    "\ufffe\001\002\000\004\002\001\001\002" });
+    "\000\146\000\012\011\015\013\012\014\010\016\011\001" +
+    "\002\000\004\004\150\001\002\000\004\004\147\001\002" +
+    "\000\004\004\146\001\002\000\004\004\145\001\002\000" +
+    "\004\017\131\001\002\000\004\017\126\001\002\000\004" +
+    "\017\106\001\002\000\014\002\104\011\015\013\012\014" +
+    "\010\016\011\001\002\000\014\002\000\011\000\013\000" +
+    "\014\000\016\000\001\002\000\006\006\017\025\016\001" +
+    "\002\000\010\005\uffe1\017\uffe1\024\uffe1\001\002\000\004" +
+    "\017\101\001\002\000\006\005\021\017\022\001\002\000" +
+    "\004\025\100\001\002\000\004\030\023\001\002\000\006" +
+    "\004\ufff1\012\024\001\002\000\004\025\026\001\002\000" +
+    "\004\004\ufff9\001\002\000\006\022\031\026\030\001\002" +
+    "\000\004\004\ufff2\001\002\000\006\021\034\027\033\001" +
+    "\002\000\006\021\034\027\033\001\002\000\010\004\uffee" +
+    "\007\036\010\037\001\002\000\016\004\uffdf\005\uffdf\007" +
+    "\uffdf\010\uffdf\012\uffdf\024\uffdf\001\002\000\016\004\uffde" +
+    "\005\uffde\007\uffde\010\uffde\012\uffde\024\uffde\001\002\000" +
+    "\004\004\ufff0\001\002\000\004\025\057\001\002\000\004" +
+    "\025\040\001\002\000\006\022\042\026\041\001\002\000" +
+    "\006\021\034\027\033\001\002\000\006\021\034\027\033" +
+    "\001\002\000\006\004\uffe6\010\045\001\002\000\004\004" +
+    "\uffeb\001\002\000\004\025\046\001\002\000\006\022\050" +
+    "\026\047\001\002\000\006\021\034\027\033\001\002\000" +
+    "\006\021\034\027\033\001\002\000\006\004\uffe6\010\045" +
+    "\001\002\000\004\004\uffe5\001\002\000\006\004\uffe6\010" +
+    "\045\001\002\000\004\004\uffe4\001\002\000\006\004\uffe6" +
+    "\010\045\001\002\000\004\004\uffea\001\002\000\006\022" +
+    "\061\026\060\001\002\000\006\021\034\027\033\001\002" +
+    "\000\006\021\034\027\033\001\002\000\006\004\uffe9\007" +
+    "\063\001\002\000\004\025\065\001\002\000\004\004\uffed" +
+    "\001\002\000\006\022\067\026\066\001\002\000\006\021" +
+    "\034\027\033\001\002\000\006\021\034\027\033\001\002" +
+    "\000\006\004\uffe9\007\063\001\002\000\004\004\uffe8\001" +
+    "\002\000\006\004\uffe9\007\063\001\002\000\004\004\uffe7" +
+    "\001\002\000\006\004\uffe9\007\063\001\002\000\004\004" +
+    "\uffec\001\002\000\010\004\uffee\007\036\010\037\001\002" +
+    "\000\004\004\uffef\001\002\000\010\005\uffe0\017\uffe0\024" +
+    "\uffe0\001\002\000\004\030\102\001\002\000\006\004\ufff1" +
+    "\012\024\001\002\000\004\004\ufffa\001\002\000\004\002" +
+    "\001\001\002\000\014\002\uffff\011\uffff\013\uffff\014\uffff" +
+    "\016\uffff\001\002\000\004\030\107\001\002\000\006\020" +
+    "\111\023\110\001\002\000\004\025\016\001\002\000\004" +
+    "\023\112\001\002\000\006\021\034\027\033\001\002\000" +
+    "\006\005\115\024\116\001\002\000\006\005\uffe3\024\uffe3" +
+    "\001\002\000\006\021\034\027\033\001\002\000\004\004" +
+    "\ufff8\001\002\000\006\005\uffe2\024\uffe2\001\002\000\006" +
+    "\005\021\024\121\001\002\000\004\020\122\001\002\000" +
+    "\004\023\123\001\002\000\006\021\034\027\033\001\002" +
+    "\000\006\005\115\024\125\001\002\000\004\004\ufff7\001" +
+    "\002\000\004\030\127\001\002\000\006\004\ufff1\012\024" +
+    "\001\002\000\004\004\ufff3\001\002\000\004\030\132\001" +
+    "\002\000\004\015\133\001\002\000\004\025\134\001\002" +
+    "\000\004\022\143\001\002\000\010\004\ufff1\005\136\012" +
+    "\024\001\002\000\004\025\140\001\002\000\004\004\ufff6" +
+    "\001\002\000\004\022\141\001\002\000\006\021\034\027" +
+    "\033\001\002\000\010\004\ufff4\005\ufff4\012\ufff4\001\002" +
+    "\000\006\021\034\027\033\001\002\000\010\004\ufff5\005" +
+    "\ufff5\012\ufff5\001\002\000\014\002\ufffd\011\ufffd\013\ufffd" +
+    "\014\ufffd\016\ufffd\001\002\000\014\002\ufffb\011\ufffb\013" +
+    "\ufffb\014\ufffb\016\ufffb\001\002\000\014\002\ufffc\011\ufffc" +
+    "\013\ufffc\014\ufffc\016\ufffc\001\002\000\014\002\ufffe\011" +
+    "\ufffe\013\ufffe\014\ufffe\016\ufffe\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -54,11 +123,45 @@ public class SqlParser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\013\000\006\002\003\003\005\001\001\000\002\001" +
-    "\001\000\004\004\011\001\001\000\002\001\001\000\006" +
-    "\002\007\003\005\001\001\000\002\001\001\000\002\001" +
+    "\000\146\000\016\002\012\003\013\004\003\005\006\006" +
+    "\004\007\005\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\014\003\104\004\003" +
+    "\005\006\006\004\007\005\001\001\000\002\001\001\000" +
+    "\004\012\017\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\004\017\024\001\001\000\004\016\026\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\004\010" +
+    "\075\001\001\000\004\010\031\001\001\000\004\015\034" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001" });
+    "\000\004\010\054\001\001\000\004\010\042\001\001\000" +
+    "\004\014\043\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\004\010\052\001\001\000\004\010" +
+    "\050\001\001\000\004\014\051\001\001\000\002\001\001" +
+    "\000\004\014\053\001\001\000\002\001\001\000\004\014" +
+    "\055\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\010\073\001\001\000\004\010\061\001\001\000\004\013" +
+    "\063\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\004\010\071\001\001\000\004\010\067\001" +
+    "\001\000\004\013\070\001\001\000\002\001\001\000\004" +
+    "\013\072\001\001\000\002\001\001\000\004\013\074\001" +
+    "\001\000\002\001\001\000\004\015\076\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\004\017" +
+    "\102\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\004\012" +
+    "\117\001\001\000\002\001\001\000\006\010\113\011\112" +
+    "\001\001\000\002\001\001\000\002\001\001\000\004\010" +
+    "\116\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\006\010" +
+    "\113\011\123\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\004\017\127\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001\000\004\020\134" +
+    "\001\001\000\002\001\001\000\004\017\136\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\010\141\001\001\000\002\001\001\000\004\010\143\001" +
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -97,9 +200,47 @@ public class SqlParser extends java_cup.runtime.lr_parser {
 
 
 
+    public ArrayList<FileTextPane> panes = new ArrayList<>();
     public SqlParser(SqlLexer lex) {
         super(lex);
     }
+    //Metodo al que se llama ante algun error sintactico
+    public void syntax_error(Symbol s){
+        String lexeme = s.value.toString();
+        int line = s.left;
+        int col = s.right;
+        System.out.println("ERROR SINTÁCTICO RECUPERADO");
+        System.out.println("\tLexeme: " + lexeme);
+        System.out.println("\trow: " + line);
+        System.out.println("\tcol: " + col);
+        TError err = new TError(lexeme,"Error Sintáctico", "Token no esperado", line, col);
+        Querys.errors.add(err);
+        try {
+            while(true){
+                if(getScanner().next_token().sym == sym.P_COMA) break;
+            }
+            parse();
+        } catch (Exception e) {
+            //throw new RuntimeException(e);
+        }
+    }
+
+    //Metodo que se llama en el momento en que ya no es posible una recuperacion
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        String lexeme = s.value.toString();
+        int line = s.left;
+        int col = s.right;
+        System.out.println("ERROR SINTACTICO NO RECUPERABLE");
+        System.out.println("\tLexeme: " + lexeme);
+        System.out.println("\trow: " + line);
+        System.out.println("\tcol: " + col);
+        TError err = new TError(lexeme,"Error Sintáctico", "Token no esperado", line, col);
+        Querys.errors.add(err);
+    }
+    protected int error_sync_size() {
+        return 10;
+    }
+
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -127,7 +268,7 @@ class CUP$SqlParser$actions {
       switch (CUP$SqlParser$act_num)
         {
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 0: // $START ::= ops EOF 
+          case 0: // $START ::= instrucciones EOF 
             {
               Object RESULT =null;
 		int start_valleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
@@ -141,47 +282,669 @@ class CUP$SqlParser$actions {
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 1: // ops ::= op P_COMA ops 
+          case 1: // instrucciones ::= instruccion 
             {
               Object RESULT =null;
-		 System.out.println("anida una operacion con otra con un punto y coma");
-              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("ops",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instrucciones",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
             }
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // ops ::= op 
+          case 2: // instrucciones ::= instrucciones instruccion 
             {
               Object RESULT =null;
-		 System.out.println("ciclo");
-              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("ops",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instrucciones",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
             }
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // op ::= ENTERO sim ENTERO 
+          case 3: // instruccion ::= seleccionar P_COMA 
             {
               Object RESULT =null;
-		 System.out.println("suma o resta 2 enteros");
-              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("op",1, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruccion",1, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
             }
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // sim ::= SUMA 
+          case 4: // instruccion ::= insertar P_COMA 
             {
               Object RESULT =null;
-		 System.out.println("suma");
-              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("sim",2, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruccion",1, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
             }
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // sim ::= RESTA 
+          case 5: // instruccion ::= actualizar P_COMA 
             {
               Object RESULT =null;
-		 System.out.println("resta");
-              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("sim",2, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruccion",1, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 6: // instruccion ::= eliminar P_COMA 
+            {
+              Object RESULT =null;
+
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruccion",1, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 7: // seleccionar ::= SELECCIONAR ASTERISCO EN PATH filter 
+            {
+              Object RESULT =null;
+		int pathleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int pathright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		String path = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int fleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int fright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> f = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		System.out.println("SELECT:");
+            path = path.replace(".","/");
+            System.out.println("\tPATH: " + path);
+            System.out.println("\tCOLUMNAS: TODAS");
+            System.out.println("\tFILTER: " + f);
+            PathQ p = new PathQ(path, pathleft, pathright);
+            String q;
+            if(f == null){
+                q = Querys.select(p);
+            }
+            else{
+                q = Querys.select(p, f);
+            }
+            if(!q.isEmpty()){
+                FileTextPane pane = new FileTextPane(q);
+                panes.add(pane);
+            }
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("seleccionar",2, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 8: // seleccionar ::= SELECCIONAR listC EN PATH filter 
+            {
+              Object RESULT =null;
+		int cleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).right;
+		ArrayList<ColumnsQ> c = (ArrayList<ColumnsQ>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).value;
+		int pathleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int pathright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		String path = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int fleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int fright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> f = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		System.out.println("SELECT:");
+            path = path.replace(".","/");
+            System.out.println("\tPATH: " + path);
+            System.out.println("\tCOLUMNAS: " + c);
+            System.out.println("\tFILTER: " + f);
+            PathQ p = new PathQ(path, pathleft, pathright);
+            String q;
+            if(f == null){
+                q = Querys.selectC(p, c);
+            }
+            else{
+                q = Querys.select(p, c, f);
+            }
+            if(!q.isEmpty()){
+                FileTextPane pane = new FileTextPane(q);
+                panes.add(pane);
+            }
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("seleccionar",2, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 9: // insertar ::= INSERTAR EN PATH VALORES PARENT_1 listV PARENT_2 
+            {
+              Object RESULT =null;
+		int pathleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)).left;
+		int pathright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)).right;
+		String path = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)).value;
+		int vleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int vright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		ArrayList<String> v = (ArrayList<String>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		System.out.println("INSERT:");
+            path = path.replace(".","/");
+            System.out.println("\tPATH: " + path);
+            System.out.println("\tCOLUMNAS: TODAS");
+            System.out.println("\tVARIABLES: " + v);
+            PathQ p = new PathQ(path, pathleft, pathright);
+            Querys.insert(p, v);
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("insertar",3, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-6)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 10: // insertar ::= INSERTAR EN PATH PARENT_1 listC PARENT_2 VALORES PARENT_1 listV PARENT_2 
+            {
+              Object RESULT =null;
+		int pathleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-7)).left;
+		int pathright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-7)).right;
+		String path = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-7)).value;
+		int cleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-5)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-5)).right;
+		ArrayList<ColumnsQ> c = (ArrayList<ColumnsQ>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-5)).value;
+		int vleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int vright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		ArrayList<String> v = (ArrayList<String>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		System.out.println("INSERT:");
+            path = path.replace(".","/");
+            System.out.println("\tPATH: " + path);
+            System.out.println("\tCOLUMNAS: " + c);
+            System.out.println("\tVARIABLES: " + v);
+            if(c.size() == v.size()){
+                PathQ p = new PathQ(path, pathleft, pathright);
+                Querys.insert(p, c, v);
+            }
+            else{
+                TError err = new TError("","Semántico(?","Cantidad de columnas y valores diferentes", cleft, cright);
+                Querys.errors.add(err);
+            }
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("insertar",3, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-9)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 11: // actualizar ::= ACTUALIZAR EN PATH ASIGNAR asignar filter 
+            {
+              Object RESULT =null;
+		int pathleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).left;
+		int pathright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).right;
+		String path = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).value;
+		int aleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		ArrayList<AssignQuery> a = (ArrayList<AssignQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int fleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int fright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> f = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		System.out.println("UPDATE:");
+            path = path.replace(".","/");
+            System.out.println("\tPATH: " + path);
+            System.out.println("\tASSIGNS: " + a);
+            System.out.println("\tFILTER: " + f);
+            PathQ p = new PathQ(path, pathleft, pathright);
+            if(f == null){
+                Querys.update(p, a);
+            }
+            else{
+                Querys.update(p, a, f);
+            }
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("actualizar",4, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-5)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 12: // asignar ::= ID EQUAL expr 
+            {
+              ArrayList<AssignQuery> RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ColumnsQ col = new ColumnsQ(id, idleft, idright);
+            ArrayList<AssignQuery> a = new ArrayList<>();
+            AssignQuery as = new AssignQuery(col,e);
+            a.add(as);
+            RESULT = a;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("asignar",14, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 13: // asignar ::= asignar COMA ID EQUAL expr 
+            {
+              ArrayList<AssignQuery> RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)).right;
+		ArrayList<AssignQuery> a = (ArrayList<AssignQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)).value;
+		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ColumnsQ col = new ColumnsQ(id, idleft, idright);
+            AssignQuery as = new AssignQuery(col,e);
+            a.add(as);
+            RESULT = a;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("asignar",14, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 14: // eliminar ::= ELIMINAR EN PATH filter 
+            {
+              Object RESULT =null;
+		int pathleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int pathright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		String path = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int fleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int fright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> f = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		System.out.println("DELETE");
+            path = path.replace(".","/");
+            System.out.println("\tPATH: " + path);
+            System.out.println("\tFILTER: " + f);
+            PathQ p = new PathQ(path, pathleft, pathright);
+            if(f == null){
+                Querys.delete(p);
+            }
+            else{
+                Querys.delete(p, f);
+            }
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("eliminar",5, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 15: // filter ::= FILTRAR conditions 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+		int condleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int condright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> cond = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ArrayList<FiltersQuery> f = new ArrayList<>();
+            for (int i = cond.size() - 1; i >= 0; i--) {
+                f.add(cond.get(i));
+            }
+            RESULT = f;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("filter",13, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 16: // filter ::= 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("filter",13, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 17: // conditions ::= ID EQUAL expr conditionsP 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int condPleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int condPright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> condP = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ColumnsQ col = new ColumnsQ(id, idleft, idright);
+            FiltersQuery fil = new FiltersQuery(col, "=", e, 0);
+            condP.add(fil);
+            RESULT = condP;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("conditions",12, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 18: // conditions ::= ID REL_OP expr conditionsP 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).value;
+		int signleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).left;
+		int signright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).right;
+		String sign = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int condPleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int condPright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> condP = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ColumnsQ col = new ColumnsQ(id, idleft, idright);
+            FiltersQuery fil = new FiltersQuery(col, sign, e, 0);
+            condP.add(fil);
+            RESULT = condP;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("conditions",12, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 19: // conditionsP ::= 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+		RESULT = new ArrayList<FiltersQuery>();
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("conditionsP",11, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 20: // conditionsP ::= AND ID EQUAL expr and 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int aleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> a = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ColumnsQ col = new ColumnsQ(id, idleft, idright);
+            FiltersQuery fil = new FiltersQuery(col, "=", e, 2);
+            a.add(fil);
+            RESULT = a;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("conditionsP",11, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 21: // conditionsP ::= AND ID REL_OP expr and 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).value;
+		int signleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).left;
+		int signright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).right;
+		String sign = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int aleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> a = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ColumnsQ col = new ColumnsQ(id, idleft, idright);
+            FiltersQuery fil = new FiltersQuery(col, sign, e, 2);
+            a.add(fil);
+            RESULT = a;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("conditionsP",11, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 22: // conditionsP ::= OR ID EQUAL expr or 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int oleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int oright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> o = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ColumnsQ col = new ColumnsQ(id, idleft, idright);
+            FiltersQuery fil = new FiltersQuery(col, "=", e, 3);
+            o.add(fil);
+            RESULT = o;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("conditionsP",11, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 23: // conditionsP ::= OR ID REL_OP expr or 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).value;
+		int signleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).left;
+		int signright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).right;
+		String sign = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int oleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int oright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> o = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ColumnsQ col = new ColumnsQ(id, idleft, idright);
+            FiltersQuery fil = new FiltersQuery(col, sign, e, 3);
+            o.add(fil);
+            RESULT = o;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("conditionsP",11, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 24: // and ::= 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+		RESULT = new ArrayList<FiltersQuery>();
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("and",9, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 25: // and ::= AND ID EQUAL expr and 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int aleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> a = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ColumnsQ col = new ColumnsQ(id, idleft, idright);
+            FiltersQuery fil = new FiltersQuery(col, "=", e, 2);
+            a.add(fil);
+            RESULT = a;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("and",9, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 26: // and ::= AND ID REL_OP expr and 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).value;
+		int signleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).left;
+		int signright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).right;
+		String sign = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int aleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> a = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ColumnsQ col = new ColumnsQ(id, idleft, idright);
+            FiltersQuery fil = new FiltersQuery(col, sign, e, 2);
+            a.add(fil);
+            RESULT = a;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("and",9, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 27: // or ::= 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+		RESULT = new ArrayList<FiltersQuery>();
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("or",10, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 28: // or ::= OR ID EQUAL expr or 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int oleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int oright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> o = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ColumnsQ col = new ColumnsQ(id, idleft, idright);
+            FiltersQuery fil = new FiltersQuery(col, "=", e, 3);
+            o.add(fil);
+            RESULT = o;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("or",10, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 29: // or ::= OR ID REL_OP expr or 
+            {
+              ArrayList<FiltersQuery> RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)).value;
+		int signleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).left;
+		int signright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).right;
+		String sign = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int oleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int oright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<FiltersQuery> o = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ColumnsQ col = new ColumnsQ(id, idleft, idright);
+            FiltersQuery fil = new FiltersQuery(col, sign, e, 3);
+            o.add(fil);
+            RESULT = o;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("or",10, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-4)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 30: // listV ::= expr 
+            {
+              ArrayList<String> RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ArrayList<String> v = new ArrayList<>();
+            v.add(e);
+            RESULT = v;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("listV",7, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 31: // listV ::= listV COMA expr 
+            {
+              ArrayList<String> RESULT =null;
+		int vleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).left;
+		int vright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).right;
+		ArrayList<String> v = (ArrayList<String>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            v.add(e);
+            RESULT = v;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("listV",7, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 32: // listC ::= ID 
+            {
+              ArrayList<ColumnsQ> RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ColumnsQ col = new ColumnsQ(id, idleft, idright);
+            ArrayList<ColumnsQ> c = new ArrayList<>();
+            c.add(col);
+            RESULT = c;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("listC",8, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 33: // listC ::= listC COMA ID 
+            {
+              ArrayList<ColumnsQ> RESULT =null;
+		int cleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).right;
+		ArrayList<ColumnsQ> c = (ArrayList<ColumnsQ>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).value;
+		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+            ColumnsQ col = new ColumnsQ(id, idleft, idright);
+            c.add(col);
+            RESULT = c;
+            
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("listC",8, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 34: // expr ::= DIGIT 
+            {
+              String RESULT =null;
+		int dleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int dright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		String d = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		RESULT = d;
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("expr",6, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 35: // expr ::= CADENA 
+            {
+              String RESULT =null;
+		int sleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int sright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		Object s = (Object)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		RESULT = s.toString().replace("\"","");
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("expr",6, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
             }
           return CUP$SqlParser$result;
 

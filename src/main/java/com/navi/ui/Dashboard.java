@@ -1,9 +1,10 @@
 package com.navi.ui;
 
 import com.formdev.flatlaf.ui.FlatTreeUI;
+import com.navi.backend.csv_controller.Querys;
+import com.navi.backend.flexycup.*;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -12,14 +13,14 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-import static javax.swing.JOptionPane.showInputDialog;
-import static javax.swing.JOptionPane.showMessageDialog;
+import static javax.swing.JOptionPane.*;
 
 public class Dashboard extends javax.swing.JFrame {
     File projectFolder;
     DefaultMutableTreeNode root;
     DefaultTreeModel model;
     DefaultTreeCellEditor editor;
+    NumLine numLine;
 
     public Dashboard() {
         initComponents();
@@ -37,6 +38,9 @@ public class Dashboard extends javax.swing.JFrame {
         tree.setEditable(true);
         editor = new DefaultTreeCellEditor(tree, (DefaultTreeCellRenderer) tree.getCellRenderer());
         tree.setCellEditor(editor);
+
+        numLine = new NumLine(textQuery);
+        scrollQuerys.setRowHeaderView(numLine);
 
         UIManager.put("Tree.paintLines", true);
         UIManager.put("Tree.repaintWholeRow", true);
@@ -77,8 +81,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
 
             @Override
-            public void editingCanceled(ChangeEvent changeEvent) {
-            }
+            public void editingCanceled(ChangeEvent changeEvent) {}
         });
 
         JPopupMenu popupMenu = getjPopupMenu();
@@ -100,12 +103,9 @@ public class Dashboard extends javax.swing.JFrame {
                         if(!isFileAlreadyOpen(selectedNode.getUserObject().toString())){
                             try {
                                 String fileContent = readFile(filePath);
-                                JTextPane pane = new JTextPane();
-                                pane.setText(fileContent);
-                                JScrollPane scroll = new JScrollPane(pane);
-                                tabbedPane.addTab(selectedNode.getUserObject().toString(), scroll);
+                                FileTextPane pane = new FileTextPane(filePath, fileContent);
+                                tabbedPane.addTab(selectedNode.getUserObject().toString(), pane);
                                 tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
-
                             } catch (IOException ignored) {}
                         }
                     }
@@ -113,6 +113,33 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        textQuery.addKeyListener(new KeyAdapter() {
+            @Override
+                public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER && textQuery.getText().endsWith(";")) {
+                    lexer = new SqlLexer(new StringReader(textQuery.getText()));
+                    parser = new SqlParser(lexer);
+                    try {
+                        parser.parse();
+                        for(FileTextPane p: parser.panes){
+                            tabbedPane.addTab("SELECT", p);
+                        }
+                        tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
+                    } catch (Exception ex) {
+                        showMessageDialog(textQuery ,"Se detectaron errores al momento de ejecutar la query","Error",JOptionPane.ERROR_MESSAGE);
+                    }
+                    if(!Querys.errors.isEmpty()){
+                        StringBuilder errors = new StringBuilder();
+                        for(TError err: Querys.errors){
+                            errors.append(err).append("\n");
+                        }
+                        FileTextPane pane = new FileTextPane(errors.toString());
+                        tabbedPane.addTab("ERRORES", pane);
+                        tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
+                    }
+                }
+            }
+        });
     }
 
     private boolean isFileAlreadyOpen(String fileName) {
@@ -140,10 +167,13 @@ public class Dashboard extends javax.swing.JFrame {
     private String getAbsolutePathOfNode(DefaultMutableTreeNode node){
         StringBuilder root = new StringBuilder();
         Object[] nodes = node.getPath();
-        root.append(projectFolder.getAbsolutePath());
-        for (int i = 1; i < nodes.length; i++) {
-            root.append("/");
-            root.append(((DefaultMutableTreeNode) nodes[i]).getUserObject().toString());
+        if(projectFolder != null){
+            root.append(projectFolder.getAbsolutePath());
+            for (int i = 1; i < nodes.length; i++) {
+                root.append("/");
+                root.append(((DefaultMutableTreeNode) nodes[i]).getUserObject().toString());
+            }
+
         }
         return root.toString();
     }
@@ -152,7 +182,7 @@ public class Dashboard extends javax.swing.JFrame {
     private void createFolder(DefaultMutableTreeNode selectedNode){
         if(selectedNode != null){
             String folderName = showInputDialog("Enter Folder Name");
-            if(folderName!=null && !folderName.isEmpty()) {
+            if(folderName!=null && !folderName.isEmpty() && folderName.matches("[a-zA-Z0-9_@+#*-]+")) {
                 DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(folderName);
                 String path = getAbsolutePathOfNode(selectedNode);
                 File newFolder = new File(path, folderName);
@@ -163,7 +193,9 @@ public class Dashboard extends javax.swing.JFrame {
                 else showMessageDialog(this,"No puedes crear una carpeta aqui","Error",JOptionPane.ERROR_MESSAGE);
 
             }
+            else showMessageDialog(this,"No puedes usar ese nombre para la creacion del archivo","Error",JOptionPane.ERROR_MESSAGE);
         }
+
     }
     private void createFile(DefaultMutableTreeNode selectedNode){
         if(selectedNode != null){
@@ -183,20 +215,23 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }
     private void createFiles(DefaultMutableTreeNode selectedNode, String fileName) {
-        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(fileName);
-        String path = getAbsolutePathOfNode(selectedNode);
-        File newFile = new File(path, fileName);
-        try {
-            if (newFile.createNewFile()) {
-                model.insertNodeInto(newNode, selectedNode, selectedNode.getChildCount());
-                reloadTree(projectFolder);
-            } else {
-                System.err.println("El archivo ya existe.");
+        if(fileName.matches("[a-zA-Z0-9_@+#*-]+")){
+            DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(fileName);
+            String path = getAbsolutePathOfNode(selectedNode);
+            File newFile = new File(path, fileName);
+            try {
+                if (newFile.createNewFile()) {
+                    model.insertNodeInto(newNode, selectedNode, selectedNode.getChildCount());
+                    reloadTree(projectFolder);
+                } else {
+                    System.err.println("El archivo ya existe.");
+                }
+            } catch (IOException e) {
+                showMessageDialog(this,"Error al crear archivo: "+e.getMessage(),"Error", JOptionPane.ERROR_MESSAGE);
+                System.err.println("Error al crear el archivo: " + e.getMessage());
             }
-        } catch (IOException e) {
-            showMessageDialog(this,"Error al crear archivo: "+e.getMessage(),"Error", JOptionPane.ERROR_MESSAGE);
-            System.err.println("Error al crear el archivo: " + e.getMessage());
         }
+        else showMessageDialog(this,"No puedes usar ese nombre para la creacion del archivo","Error",JOptionPane.ERROR_MESSAGE);
     }
 
     //Crear menu Popup
@@ -247,8 +282,6 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         newProject = new javax.swing.JMenuItem();
         openProject = new javax.swing.JMenuItem();
-
-        scrollTab = new JScrollPane(tabbedPane);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -307,14 +340,14 @@ public class Dashboard extends javax.swing.JFrame {
                         .addGroup(panelFilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(panelFilesLayout.createSequentialGroup()
                                         .addGap(4, 4, 4)
-                                        .addComponent(scrollTab)
+                                        .addComponent(tabbedPane)
                                         .addGap(5, 5, 5)))
         );
         panelFilesLayout.setVerticalGroup(
                 panelFilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGap(0, 374, Short.MAX_VALUE)
                         .addGroup(panelFilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(scrollTab, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE))
+                                .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE))
         );
 
         scrollQuerys.setViewportView(textQuery);
@@ -430,6 +463,7 @@ public class Dashboard extends javax.swing.JFrame {
         int result = fileChooser.showSaveDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             projectFolder = fileChooser.getSelectedFile(); //ObtenerFichero
+            Querys.pathProject = projectFolder.getAbsolutePath();
             reloadTree(projectFolder);
         }
     }
@@ -496,11 +530,34 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     private void sendQueryBActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        if(!textQuery.getText().isEmpty()){
+            lexer = new SqlLexer(new StringReader(textQuery.getText()));
+            parser = new SqlParser(lexer);
+            try {
+                parser.parse();
+                for(FileTextPane p: parser.panes){
+                    tabbedPane.addTab("SELECT", p);
+                }
+                tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
+            } catch (Exception e) {
+                showMessageDialog(this,"Se detectaron errores al momento de ejecutar la query","Error",JOptionPane.ERROR_MESSAGE);
+            }
+            if(!Querys.errors.isEmpty()){
+                StringBuilder errors = new StringBuilder();
+                for(TError err: Querys.errors){
+                    errors.append(err).append("\n");
+                }
+                FileTextPane pane = new FileTextPane(errors.toString());
+                tabbedPane.addTab("ERRORES", pane);
+                tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
+            }
+        }
     }
 
 
-    private JScrollPane scrollTab;
+    private SqlLexer lexer;
+    private SqlParser parser;
+
     // Variables declaration - do not modify
     private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JTextPane textQuery;
