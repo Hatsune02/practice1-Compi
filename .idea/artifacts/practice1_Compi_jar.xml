@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="practice1-Compi:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/practice1_Compi_jar</output-path>
+    <root id="archive" name="practice1-Compi.jar">
+      <element id="module-output" name="practice1-Compi" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/formdev/flatlaf-intellij-themes/3.2.1/flatlaf-intellij-themes-3.2.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-csv/1.10.0/commons-csv-1.10.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/de/jflex/cup_runtime/11b-20160615/cup_runtime-11b-20160615.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/formdev/flatlaf/3.2.1/flatlaf-3.2.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
