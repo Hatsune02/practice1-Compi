@@ -172,6 +172,38 @@ public class Dashboard extends javax.swing.JFrame {
         return root.toString();
     }
 
+    private void deleteFile(DefaultMutableTreeNode selectedNode){
+        if(selectedNode != null){
+            File file = new File(getAbsolutePathOfNode(selectedNode));
+            if(file.isDirectory()){
+                File[] files = file.listFiles();
+                if(files!=null){
+                    for(File f: files){
+                        deleteFile(f);
+                    }
+                }
+            }
+            if(file.delete()) {
+                reloadTree(projectFolder);
+            }
+
+        }
+    }
+    private void deleteFile(File file){
+        if(file.isDirectory()){
+            File[] files = file.listFiles();
+            if(files!=null){
+                for(File f: files){
+                    deleteFile(f);
+                }
+            }
+        }
+        if(file.delete()) {
+            reloadTree(projectFolder);
+        }
+
+    }
+
     //Crear folders o files
     private void createFolder(DefaultMutableTreeNode selectedNode){
         if(selectedNode != null){
@@ -234,6 +266,8 @@ public class Dashboard extends javax.swing.JFrame {
         JMenuItem newCSVFileItem = new JMenuItem("Nuevo Archivo CSV");
         JMenuItem newFileItem = new JMenuItem("Nuevo Archivo");
         JMenuItem newFolderItem = new JMenuItem("Nueva Carpeta");
+        JMenuItem deleteFile = new JMenuItem("Eliminar");
+
 
         newCSVFileItem.addActionListener(e -> {
             DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
@@ -247,9 +281,15 @@ public class Dashboard extends javax.swing.JFrame {
             DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
             createFolder(selectedNode);
         });
+        deleteFile.addActionListener(e -> {
+            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+            int option = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que quieres eliminar '" + selectedNode.getUserObject() + "'?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+            if(option == YES_OPTION) deleteFile(selectedNode);
+        });
         popupMenu.add(newCSVFileItem);
         popupMenu.add(newFileItem);
         popupMenu.add(newFolderItem);
+        popupMenu.add(deleteFile);
         return popupMenu;
     }
 
@@ -269,7 +309,7 @@ public class Dashboard extends javax.swing.JFrame {
         textPane = new javax.swing.JTextPane();
         panelQuery = new javax.swing.JPanel();
         scrollQuerys = new javax.swing.JScrollPane();
-        textQuery = new javax.swing.JTextPane();
+        textQuery = new TextPaneB();
         label = new javax.swing.JLabel();
         sendQueryB = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();

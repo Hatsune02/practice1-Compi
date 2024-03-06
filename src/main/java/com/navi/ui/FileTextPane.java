@@ -12,7 +12,7 @@ public class FileTextPane extends JScrollPane {
     public FileTextPane(String path, String fileContent){
         super();
         this.PATH = path;
-        pane = new JTextPane();
+        pane = new TextPaneB();
         pane.setEditable(true);
         pane.setText(fileContent);
         pane.addKeyListener(new KeyAdapter() {
@@ -23,6 +23,7 @@ public class FileTextPane extends JScrollPane {
                 }
             }
         });
+        if(path.endsWith(".ide")) pane.setEditable(false);
         numLine = new NumLine(pane);
         this.setRowHeaderView(numLine);
         this.setViewportView(pane);
@@ -30,7 +31,7 @@ public class FileTextPane extends JScrollPane {
     }
     public FileTextPane(String fileContent){
         super();
-        pane = new JTextPane();
+        pane = new TextPaneB();
         pane.setEditable(true);
         pane.setText(fileContent);
         numLine = new NumLine(pane);

@@ -186,21 +186,23 @@ public class CSVController {
             }
             int rowsAffected = 0;
             if(columnExist(csvParser, columns)){
+                csvPrinter.printRecord(csvParser.getHeaderNames());
                 for(CSVRecord csvRecord: csvParser){
                     List<String> row = new ArrayList<>();
                     for(String c: csvParser.getHeaderNames()){
                         if(col.contains(c)){
                             row.add(values.get(col.indexOf(c)));
-                            rowsAffected++;
                         }
                         else row.add(csvRecord.get(c));
                     }
+                    rowsAffected++;
                     csvPrinter.printRecord(row);
                 }
                 csvPrinter.flush();
+                csvPrinter.close();
+                fileReader.close();
             }
-            csvPrinter.close();
-            fileReader.close();
+
             Querys.console.add("ACTUALIZAR. Filas afectadas: "+rowsAffected+", linea: "+path.getLine());
             Files.move(Paths.get(temp), Paths.get(path.getPath()), StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception e) {
@@ -225,26 +227,37 @@ public class CSVController {
                 values.add(a.getValue());
                 col.add(a.getColumn().getName());
             }
+            columns = mergeColumns(columns,filters);
             int rowsAffected = 0;
             if(columnExist(csvParser, columns)){
+                csvPrinter.printRecord(csvParser.getHeaderNames());
                 for(CSVRecord csvRecord: csvParser){
                     if(conditions(csvRecord, filters)){
                         List<String> row = new ArrayList<>();
                         for(String c: csvParser.getHeaderNames()){
                             if(col.contains(c)){
                                 row.add(values.get(col.indexOf(c)));
-                                rowsAffected++;
                             }
                             else row.add(csvRecord.get(c));
                         }
+                        rowsAffected++;
                         csvPrinter.printRecord(row);
                     }
                     else csvPrinter.printRecord(csvRecord);
                 }
                 csvPrinter.flush();
+                csvPrinter.close();
+                fileReader.close();
             }
-            csvPrinter.close();
-            fileReader.close();
+            else {
+                csvPrinter.printRecord(csvParser.getHeaderNames());
+                for(CSVRecord csvRecord: csvParser){
+                    csvPrinter.printRecord(csvRecord);
+                }
+                csvPrinter.flush();
+                csvPrinter.close();
+                fileReader.close();
+            }
             Querys.console.add("ACTUALIZAR. Filas afectadas: "+rowsAffected+", linea: "+path.getLine());
             Files.move(Paths.get(temp), Paths.get(path.getPath()), StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception e) {
@@ -286,6 +299,7 @@ public class CSVController {
             FileReader fileReader = new FileReader(path.getPath());
             CSVParser csvParser = CSVFormat.DEFAULT.withHeader().parse(fileReader);
             int rowsAffected = 0;
+            csvPrinter.printRecord(csvParser.getHeaderNames());
             for(CSVRecord csvRecord: csvParser){
                 if(!conditions(csvRecord, filters)){
                     csvPrinter.printRecord(csvRecord);
@@ -309,7 +323,8 @@ public class CSVController {
 
         for(FiltersQuery f: filters){
             conditions = f.filter(record);
-            if(type == 3 && conditions) break;
+            if(type == 2 && !conditions) return false;
+            if(type == 3 && conditions) return true;
         }
         return conditions;
     }
@@ -327,7 +342,6 @@ public class CSVController {
                 allColumns = true;
             }
             else{
-                System.out.println("No existe la columna: " + c);
                 TError err = new TError(c.getName(), "Semántico(?", "Columna inexistente", c.getLine(), c.getCol());
                 Querys.errors.add(err);
                 allColumns = false;
