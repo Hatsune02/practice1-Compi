@@ -17,12 +17,15 @@ public class CSVController {
             Reader reader = new FileReader(path.getPath());
             CSVParser csvParser = CSVFormat.DEFAULT.parse(reader);
             StringBuilder row = new StringBuilder();
+            int rowsAffected = 0;
             for (CSVRecord csvRecord : csvParser) {
                 for (int i = 0; i < csvRecord.size(); i++) {
                     row.append(csvRecord.get(i)).append(", ");
                 }
+                rowsAffected++;
                 row.append("\n");
             }
+            Querys.console.add("SELECCIONAR. Filas recuperadas: "+rowsAffected+", linea: "+path.getLine());
             return row.toString();
         } catch (Exception e) {
             TError err = new TError(path.getPath(),"Semántico(?","Archivo inexistente", path.getLine(), path.getCol());
@@ -45,14 +48,17 @@ public class CSVController {
                     row.append(columnName).append(", ");
                 }
                 row.append("\n");
+                int rowsAffected = 0;
                 for (CSVRecord csvRecord : csvParser) {
                     if(conditions(csvRecord, filters)){
                         for (int i = 0; i < csvRecord.size(); i++) {
                             row.append(csvRecord.get(i)).append(", ");
                         }
+                        rowsAffected++;
                         row.append("\n");
                     }
                 }
+                Querys.console.add("SELECCIONAR. Filas recuperadas: "+rowsAffected+", linea: "+path.getLine());
                 return row.toString();
             }
             return "";
@@ -72,12 +78,15 @@ public class CSVController {
                     row.append(col.getName()).append(", ");
                 }
                 row.append("\n");
+                int rowsAffected = 0;
                 for (CSVRecord csvRecord : csvParser) {
                     for(ColumnsQ col: columns){
                         row.append(csvRecord.get(col.getName())).append(", ");
                     }
+                    rowsAffected++;
                     row.append("\n");
                 }
+                Querys.console.add("SELECCIONAR. Filas recuperadas: "+rowsAffected+", linea: "+path.getLine());
                 return row.toString();
             }
             return "";
@@ -99,14 +108,17 @@ public class CSVController {
                     row.append(col.getName()).append(", ");
                 }
                 row.append("\n");
+                int rowsAffected = 0;
                 for (CSVRecord csvRecord : csvParser) {
                     if(conditions(csvRecord, filters)){
                         for(ColumnsQ col: columns){
                             row.append(csvRecord.get(col.getName())).append(", ");
                         }
+                        rowsAffected++;
                         row.append("\n");
                     }
                 }
+                Querys.console.add("SELECCIONAR. Filas recuperadas: "+rowsAffected+", linea: "+path.getLine());
                 return row.toString();
             }
             return "";
@@ -125,7 +137,7 @@ public class CSVController {
             csvPrinter.flush();
             csvPrinter.close();
 
-            System.out.println("Fila insertada correctamente");
+            Querys.console.add("INSERTAR. Filas afectadas: 1, linea: "+path.getLine());
         } catch (Exception e) {
             TError err = new TError(path.getPath(),"Semántico(?","Archivo inexistente", path.getLine(), path.getCol());
             Querys.errors.add(err);
@@ -147,7 +159,7 @@ public class CSVController {
                 csvPrinter.printRecord(row);
                 csvPrinter.flush();
                 csvPrinter.close();
-                System.out.println("Fila insertada correctamente");
+                Querys.console.add("INSERTAR. Filas afectadas: 1, linea: "+path.getLine());
             }
         } catch (Exception e) {
             TError err = new TError(path.getPath(),"Semántico(?","Archivo inexistente", path.getLine(), path.getCol());
@@ -172,13 +184,14 @@ public class CSVController {
                 col.add(a.getColumn().getName());
                 values.add(a.getValue());
             }
-
+            int rowsAffected = 0;
             if(columnExist(csvParser, columns)){
                 for(CSVRecord csvRecord: csvParser){
                     List<String> row = new ArrayList<>();
                     for(String c: csvParser.getHeaderNames()){
                         if(col.contains(c)){
                             row.add(values.get(col.indexOf(c)));
+                            rowsAffected++;
                         }
                         else row.add(csvRecord.get(c));
                     }
@@ -188,9 +201,8 @@ public class CSVController {
             }
             csvPrinter.close();
             fileReader.close();
-
+            Querys.console.add("ACTUALIZAR. Filas afectadas: "+rowsAffected+", linea: "+path.getLine());
             Files.move(Paths.get(temp), Paths.get(path.getPath()), StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("Archivo actualizado correctamente");
         } catch (Exception e) {
             TError err = new TError(path.getPath(),"Semántico(?","Archivo inexistente", path.getLine(), path.getCol());
             Querys.errors.add(err);
@@ -213,7 +225,7 @@ public class CSVController {
                 values.add(a.getValue());
                 col.add(a.getColumn().getName());
             }
-
+            int rowsAffected = 0;
             if(columnExist(csvParser, columns)){
                 for(CSVRecord csvRecord: csvParser){
                     if(conditions(csvRecord, filters)){
@@ -221,6 +233,7 @@ public class CSVController {
                         for(String c: csvParser.getHeaderNames()){
                             if(col.contains(c)){
                                 row.add(values.get(col.indexOf(c)));
+                                rowsAffected++;
                             }
                             else row.add(csvRecord.get(c));
                         }
@@ -232,9 +245,8 @@ public class CSVController {
             }
             csvPrinter.close();
             fileReader.close();
-
+            Querys.console.add("ACTUALIZAR. Filas afectadas: "+rowsAffected+", linea: "+path.getLine());
             Files.move(Paths.get(temp), Paths.get(path.getPath()), StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("Archivo actualizado correctamente");
         } catch (Exception e) {
             TError err = new TError(path.getPath(),"Semántico(?","Archivo inexistente", path.getLine(), path.getCol());
             Querys.errors.add(err);
@@ -249,15 +261,17 @@ public class CSVController {
 
             FileReader fileReader = new FileReader(path.getPath());
             CSVParser csvParser = CSVFormat.DEFAULT.withHeader().parse(fileReader);
-
+            int rowsAffected = 0;
+            for(CSVRecord r: csvParser){
+                rowsAffected++;
+            }
             csvPrinter.printRecord(csvParser.getHeaderNames());
-
+            Querys.console.add("ELIMINAR. Filas afectadas: "+rowsAffected+", linea: "+path.getLine());
             csvPrinter.flush();
             csvPrinter.close();
             fileReader.close();
 
             Files.move(Paths.get(temp), Paths.get(path.getPath()), StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("Archivo actualizado correctamente");
         } catch (Exception e) {
             TError err = new TError(path.getPath(),"Semántico(?","Archivo inexistente", path.getLine(), path.getCol());
             Querys.errors.add(err);
@@ -271,17 +285,19 @@ public class CSVController {
 
             FileReader fileReader = new FileReader(path.getPath());
             CSVParser csvParser = CSVFormat.DEFAULT.withHeader().parse(fileReader);
+            int rowsAffected = 0;
             for(CSVRecord csvRecord: csvParser){
                 if(!conditions(csvRecord, filters)){
                     csvPrinter.printRecord(csvRecord);
                 }
+                else rowsAffected++;
             }
+            Querys.console.add("ELIMINAR. Filas afectadas: "+rowsAffected+", linea: "+path.getLine());
             csvPrinter.flush();
             csvPrinter.close();
             fileReader.close();
 
             Files.move(Paths.get(temp), Paths.get(path.getPath()), StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("Archivo actualizado correctamente");
         } catch (Exception e) {
             TError err = new TError(path.getPath(),"Semántico(?","Archivo inexistente", path.getLine(), path.getCol());
             Querys.errors.add(err);

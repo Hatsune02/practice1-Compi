@@ -345,11 +345,8 @@ class CUP$SqlParser$actions {
 		int fleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
 		ArrayList<FiltersQuery> f = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
-		System.out.println("SELECT:");
+		
             path = path.replace(".","/");
-            System.out.println("\tPATH: " + path);
-            System.out.println("\tCOLUMNAS: TODAS");
-            System.out.println("\tFILTER: " + f);
             PathQ p = new PathQ(path, pathleft, pathright);
             String q;
             if(f == null){
@@ -380,11 +377,8 @@ class CUP$SqlParser$actions {
 		int fleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
 		ArrayList<FiltersQuery> f = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
-		System.out.println("SELECT:");
+		
             path = path.replace(".","/");
-            System.out.println("\tPATH: " + path);
-            System.out.println("\tCOLUMNAS: " + c);
-            System.out.println("\tFILTER: " + f);
             PathQ p = new PathQ(path, pathleft, pathright);
             String q;
             if(f == null){
@@ -412,11 +406,8 @@ class CUP$SqlParser$actions {
 		int vleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
 		int vright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
 		ArrayList<String> v = (ArrayList<String>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
-		System.out.println("INSERT:");
+		
             path = path.replace(".","/");
-            System.out.println("\tPATH: " + path);
-            System.out.println("\tCOLUMNAS: TODAS");
-            System.out.println("\tVARIABLES: " + v);
             PathQ p = new PathQ(path, pathleft, pathright);
             Querys.insert(p, v);
             
@@ -437,11 +428,8 @@ class CUP$SqlParser$actions {
 		int vleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
 		int vright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
 		ArrayList<String> v = (ArrayList<String>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
-		System.out.println("INSERT:");
+		
             path = path.replace(".","/");
-            System.out.println("\tPATH: " + path);
-            System.out.println("\tCOLUMNAS: " + c);
-            System.out.println("\tVARIABLES: " + v);
             if(c.size() == v.size()){
                 PathQ p = new PathQ(path, pathleft, pathright);
                 Querys.insert(p, c, v);
@@ -468,11 +456,8 @@ class CUP$SqlParser$actions {
 		int fleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
 		ArrayList<FiltersQuery> f = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
-		System.out.println("UPDATE:");
+		
             path = path.replace(".","/");
-            System.out.println("\tPATH: " + path);
-            System.out.println("\tASSIGNS: " + a);
-            System.out.println("\tFILTER: " + f);
             PathQ p = new PathQ(path, pathleft, pathright);
             if(f == null){
                 Querys.update(p, a);
@@ -539,10 +524,8 @@ class CUP$SqlParser$actions {
 		int fleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
 		ArrayList<FiltersQuery> f = (ArrayList<FiltersQuery>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
-		System.out.println("DELETE");
+		
             path = path.replace(".","/");
-            System.out.println("\tPATH: " + path);
-            System.out.println("\tFILTER: " + f);
             PathQ p = new PathQ(path, pathleft, pathright);
             if(f == null){
                 Querys.delete(p);

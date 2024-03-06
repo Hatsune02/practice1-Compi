@@ -7,6 +7,7 @@ import java.util.Arrays;
 public class Querys {
     public static String pathProject = "null";
     public static ArrayList<TError> errors = new ArrayList<>();
+    public static ArrayList<String> console = new ArrayList<>();
 
     public static String select(PathQ path){
         String route = getAbsolutePath(path);

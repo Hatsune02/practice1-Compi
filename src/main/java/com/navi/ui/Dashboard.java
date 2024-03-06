@@ -3,6 +3,8 @@ package com.navi.ui;
 import com.formdev.flatlaf.ui.FlatTreeUI;
 import com.navi.backend.csv_controller.Querys;
 import com.navi.backend.flexycup.*;
+import com.navi.backend.utils.IDEFilter;
+import com.navi.backend.utils.IDEUtils;
 
 import java.awt.event.*;
 import java.io.*;
@@ -128,15 +130,7 @@ public class Dashboard extends javax.swing.JFrame {
                     } catch (Exception ex) {
                         showMessageDialog(textQuery ,"Se detectaron errores al momento de ejecutar la query","Error",JOptionPane.ERROR_MESSAGE);
                     }
-                    if(!Querys.errors.isEmpty()){
-                        StringBuilder errors = new StringBuilder();
-                        for(TError err: Querys.errors){
-                            errors.append(err).append("\n");
-                        }
-                        FileTextPane pane = new FileTextPane(errors.toString());
-                        tabbedPane.addTab("ERRORES", pane);
-                        tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
-                    }
+                    showErrConsole();
                 }
             }
         });
@@ -224,11 +218,11 @@ public class Dashboard extends javax.swing.JFrame {
                     model.insertNodeInto(newNode, selectedNode, selectedNode.getChildCount());
                     reloadTree(projectFolder);
                 } else {
-                    System.err.println("El archivo ya existe.");
+                    showMessageDialog(this,"El archivo ya existe.","Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (IOException e) {
                 showMessageDialog(this,"Error al crear archivo: "+e.getMessage(),"Error", JOptionPane.ERROR_MESSAGE);
-                System.err.println("Error al crear el archivo: " + e.getMessage());
+
             }
         }
         else showMessageDialog(this,"No puedes usar ese nombre para la creacion del archivo","Error",JOptionPane.ERROR_MESSAGE);
@@ -289,14 +283,14 @@ public class Dashboard extends javax.swing.JFrame {
 
         scrollTree.setViewportView(tree);
 
-        newFolderB.setText("Folder +");
+        newFolderB.setText("Project +");
         newFolderB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newFolderBActionPerformed(evt);
             }
         });
 
-        newFileB.setText("File +");
+        newFileB.setText("Open+");
         newFileB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newFileBActionPerformed(evt);
@@ -314,7 +308,7 @@ public class Dashboard extends javax.swing.JFrame {
                                         .addGroup(panelTreeLayout.createSequentialGroup()
                                                 .addComponent(newFolderB)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(newFileB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(newFileB, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addContainerGap())))
         );
         panelTreeLayout.setVerticalGroup(
@@ -460,6 +454,7 @@ public class Dashboard extends javax.swing.JFrame {
     private void openProjectActionPerformed(java.awt.event.ActionEvent evt) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.setFileSystemView(new IDEFilter());
         int result = fileChooser.showSaveDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             projectFolder = fileChooser.getSelectedFile(); //ObtenerFichero
@@ -473,6 +468,8 @@ public class Dashboard extends javax.swing.JFrame {
         model = new DefaultTreeModel(root);
         create(root, file);
         sortTree(root);
+        IDEUtils project = new IDEUtils(projectFolder.getName(), projectFolder.getAbsolutePath());
+        project.generarArchivoIde();
         tree.setModel(model);
     }
     private void create(DefaultMutableTreeNode root, File file){
@@ -523,10 +520,20 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }
     private void newFolderBActionPerformed(java.awt.event.ActionEvent evt) {
+        NewProject dialog = new NewProject(this);
+        dialog.setVisible(true);
     }
 
     private void newFileBActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.setFileSystemView(new IDEFilter());
+        int result = fileChooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            projectFolder = fileChooser.getSelectedFile(); //ObtenerFichero
+            Querys.pathProject = projectFolder.getAbsolutePath();
+            reloadTree(projectFolder);
+        }
     }
 
     private void sendQueryBActionPerformed(java.awt.event.ActionEvent evt) {
@@ -542,15 +549,30 @@ public class Dashboard extends javax.swing.JFrame {
             } catch (Exception e) {
                 showMessageDialog(this,"Se detectaron errores al momento de ejecutar la query","Error",JOptionPane.ERROR_MESSAGE);
             }
-            if(!Querys.errors.isEmpty()){
-                StringBuilder errors = new StringBuilder();
-                for(TError err: Querys.errors){
-                    errors.append(err).append("\n");
-                }
-                FileTextPane pane = new FileTextPane(errors.toString());
-                tabbedPane.addTab("ERRORES", pane);
-                tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
+            showErrConsole();
+        }
+    }
+
+    private void showErrConsole() {
+        if(!Querys.errors.isEmpty()){
+            StringBuilder errors = new StringBuilder();
+            for(TError err: Querys.errors){
+                errors.append(err).append("\n");
             }
+            Querys.errors.clear();
+            FileTextPane pane = new FileTextPane(errors.toString());
+            tabbedPane.addTab("ERRORES", pane);
+            tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
+        }
+        if(!Querys.console.isEmpty()){
+            StringBuilder console = new StringBuilder();
+            int count = 1;
+            for(String c: Querys.console){
+                console.append(count).append(") ").append(c).append("\n");
+                count++;
+            }
+            FileTextPane pane = new FileTextPane(console.toString());
+            tabbedPane.addTab("CONSOLE", pane);
         }
     }
 
